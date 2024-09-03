@@ -1,24 +1,23 @@
 pipeline {
     agent {
-        label 'Docker-Node'
+        label 'jumpserver'
     }
 
     environment {
-        KUBECONFIG_CREDENTIAL_ID = 'k8s-kubeconfig-dev'
+        KUBECONFIG_CREDENTIAL_ID = 'k8s-config'
         version = "backend_${env.BUILD_NUMBER}"
-        docker_image = "persevcareers6577/perseverance-project:${version}"
-    }
+        docker_image = "krishn1/moviestreaming:${version}"
 
     stages {
         stage('Clone Repository') {
             steps {
-                git branch: 'main', url: 'https://github.com/persevcareers/Project-Final-Backend.git'
+                git branch: 'main', url: 'git@github.com:Mandhireddykrishna/project-backend.git'
             }
         }
 
        stage('Login to Docker Hub') {
             steps {
-                withCredentials([usernamePassword(credentialsId: 'dockerhub-credentials', usernameVariable: 'DOCKER_USERNAME', passwordVariable: 'DOCKER_PASSWORD')]) {
+                withCredentials([usernamePassword(credentialsId: 'dockerhub', usernameVariable: 'DOCKER_USERNAME', passwordVariable: 'DOCKER_PASSWORD')]) {
                     sh "echo \"$DOCKER_PASSWORD\" | sudo docker login --username \"$DOCKER_USERNAME\" --password-stdin"
                 }
             }
@@ -28,7 +27,7 @@ pipeline {
             steps {
                 script {
                     def dockerfilePath = '.'
-                   sh "sudo docker build -t 'persevcareers6577/perseverance-project:${version}' ."
+                   sh "sudo docker build -t 'krishn1/moviestreaming:${version}' ."
                 }
             }
         }
@@ -36,7 +35,7 @@ pipeline {
         stage('Push Docker Image') {
             steps {
                 script {
-                    sh "sudo docker push 'persevcareers6577/perseverance-project:${version}'"
+                    sh "sudo docker push 'krishn1/moviestreaming:${version}'"
                 }
             }
         } 
