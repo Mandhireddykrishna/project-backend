@@ -15,7 +15,7 @@ module.exports = async () => {
             connectionParams.pass = process.env.DB_PASSWORD;
         }
         await mongoose.connect(
-           process.env.MONGO_CONN_STR,
+           process.env.DB_CONN_STR,
            connectionParams
         );
         console.log("Connected to database.");
