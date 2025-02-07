@@ -1,10 +1,10 @@
 pipeline {
     agent {
-        label 'jumpserver'
+        label 'slave'
     }
 
     environment {
-        KUBECONFIG_CREDENTIAL_ID = 'k8s-config'
+        KUBECONFIG_CREDENTIAL_ID = '.kube'
         version = "backend_${env.BUILD_NUMBER}"
         docker_image = "krishn1/moviestreaming:${version}"
 
