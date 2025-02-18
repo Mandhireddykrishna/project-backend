@@ -20,6 +20,6 @@ module.exports = async () => {
         );
         console.log("Connected to database.");
     } catch (error) {
-        console.log("Could not connect to database.", error);
+        console.log("Connect to database.", error);
     }
 };
